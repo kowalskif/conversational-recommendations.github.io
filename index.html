@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversational AI – Trend Brief · Profil Software</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue-deep: #0a0f2e;
+    --blue-mid: #1a2a8a;
+    --blue-bright: #1e3fce;
+    --green: #00e87b;
+    --green-dim: #00c468;
+    --white: #ffffff;
+    --text-muted: rgba(255,255,255,0.65);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--blue-deep);
+    color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 18px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #0a0f2e;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-logo { font-size: 15px; font-weight: 700; letter-spacing: 0.05em; }
+  .nav-logo span { color: var(--green); }
+  .nav-tag {
+    background: rgba(0,232,123,0.12); border: 1px solid rgba(0,232,123,0.3);
+    color: var(--green); font-size: 12px; font-weight: 600;
+    padding: 4px 12px; border-radius: 20px; letter-spacing: 0.06em;
+  }
+  section { padding: 100px 60px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .pill {
+    display: inline-block;
+    background: rgba(0,232,123,0.12); border: 1px solid rgba(0,232,123,0.35);
+    color: var(--green); font-size: 12px; font-weight: 700;
+    padding: 6px 16px; border-radius: 20px;
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 24px;
+  }
+  h2 { font-size: clamp(28px,4vw,42px); font-weight: 800; margin-bottom: 14px; }
+  .sub { font-size: 17px; color: var(--text-muted); max-width: 680px; margin-bottom: 56px; }
+
+  /* HERO */
+  #hero {
+    background: var(--blue-deep);
+    min-height: 88vh; display: flex; align-items: center;
+    padding-top: 140px; position: relative;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .hero-eyebrow { font-size: 13px; font-weight: 600; color: var(--green); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 20px; }
+  h1 { font-size: clamp(34px,4.5vw,54px); font-weight: 900; line-height: 1.1; margin-bottom: 24px; }
+  h1 em { font-style: normal; color: var(--green); }
+  .hero-desc { font-size: 16px; color: var(--text-muted); line-height: 1.75; margin-bottom: 36px; }
+  .hero-visual {
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 16px; padding: 28px;
+  }
+  .mockup-bar { display: flex; gap: 6px; margin-bottom: 20px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r{background:#ff5f57;} .dot-y{background:#febc2e;} .dot-g{background:#28c840;}
+  .mockup-article { font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
+  .mockup-article strong { color: var(--white); }
+  .mockup-divider { border: none; border-top: 1px solid rgba(255,255,255,.08); margin-bottom: 20px; }
+  .chat-label { font-size: 11px; font-weight: 600; color: var(--green); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; }
+  .chat-bubble-user {
+    background: var(--blue-bright); border-radius: 12px 12px 4px 12px;
+    padding: 10px 14px; font-size: 13px; max-width: 80%; margin-left: auto; margin-bottom: 10px;
+  }
+  .chat-bubble-ai {
+    background: rgba(0,232,123,.1); border: 1px solid rgba(0,232,123,.2);
+    border-radius: 12px 12px 12px 4px;
+    padding: 10px 14px; font-size: 13px; max-width: 85%; margin-bottom: 10px;
+  }
+  .chat-input-row { display: flex; gap: 8px; margin-top: 16px; }
+  .chat-input {
+    flex: 1; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+    border-radius: 8px; padding: 9px 14px; font-size: 13px; color: var(--text-muted);
+  }
+  .chat-send {
+    background: var(--green); border: none; border-radius: 8px;
+    padding: 9px 14px; color: #0a0f2e; font-weight: 700; font-size: 12px; cursor: pointer;
+  }
+
+  /* CARDS */
+  .cards-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+  .cards-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; }
+  .card {
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+    border-radius: 16px; padding: 32px 28px; transition: transform .2s, border-color .2s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: rgba(0,232,123,.4); }
+  .card-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: rgba(0,232,123,.12); border: 1px solid rgba(0,232,123,.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 20px;
+  }
+  .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+
+  /* FORMATS */
+  .formats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .format-card {
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px; padding: 28px 24px; position: relative; overflow: hidden;
+  }
+  .format-card::before {
+    content:''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--green), var(--blue-bright));
+  }
+  .format-num { font-size: 40px; font-weight: 900; color: rgba(0,232,123,.15); line-height: 1; margin-bottom: 10px; }
+  .format-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .format-card p { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+  .format-new {
+    display: inline-block; font-size: 10px; font-weight: 700; color: var(--green);
+    background: rgba(0,232,123,.12); border: 1px solid rgba(0,232,123,.3);
+    padding: 2px 8px; border-radius: 10px; margin-bottom: 8px; letter-spacing: .06em;
+  }
+
+  /* TECH */
+  .tech-split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .tech-steps { display: flex; flex-direction: column; gap: 20px; }
+  .tech-step {
+    display: flex; gap: 16px; align-items: flex-start;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 12px; padding: 20px;
+  }
+  .step-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--green); color: #0a0f2e;
+    font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .tech-step h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .tech-step p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .tech-visual {
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 16px; padding: 32px;
+  }
+  .tech-badge {
+    display: inline-block; background: rgba(0,232,123,.12); border: 1px solid rgba(0,232,123,.3);
+    color: var(--green); font-size: 11px; font-weight: 700; padding: 4px 12px;
+    border-radius: 20px; margin-bottom: 20px; letter-spacing: .06em;
+  }
+  .tech-visual h3 { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+  .tech-visual p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+  .rag-flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+  .rag-node {
+    background: rgba(34,70,227,.4); border: 1px solid rgba(34,70,227,.6);
+    border-radius: 8px; padding: 8px 14px; font-size: 12px; font-weight: 600;
+  }
+  .rag-arrow { color: var(--green); font-size: 16px; }
+
+  /* INSIGHT CARDS */
+  .insight-card {
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px; padding: 28px;
+  }
+  .insight-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+  .insight-card ul { list-style: none; }
+  .insight-card li {
+    padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,.06);
+    font-size: 13px; color: var(--text-muted); display: flex; gap: 10px; align-items: flex-start;
+  }
+  .insight-card li:last-child { border-bottom: none; }
+  .li-dot { color: var(--green); margin-top: 3px; flex-shrink: 0; }
+
+  /* EXAMPLES */
+  .example-card {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+    border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 12px;
+    transition: transform .2s, border-color .2s;
+  }
+  .example-card:hover { transform: translateY(-4px); border-color: rgba(0,232,123,.4); }
+  .example-tag {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    text-transform: uppercase; padding: 4px 10px; border-radius: 20px;
+    background: rgba(0,232,123,.15); color: var(--green); border: 1px solid rgba(0,232,123,.3);
+    width: fit-content;
+  }
+  .example-type {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    padding: 3px 10px; border-radius: 20px;
+    background: rgba(255,255,255,.1); color: rgba(255,255,255,.7); width: fit-content;
+  }
+  .example-card h3 { font-size: 16px; font-weight: 800; }
+  .example-card .company { font-size: 13px; color: var(--green); font-weight: 600; }
+  .example-card p { font-size: 13px; color: var(--text-muted); line-height: 1.65; flex: 1; }
+  .example-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 700; color: var(--green); text-decoration: none;
+    border: 1px solid rgba(0,232,123,.3); padding: 7px 14px; border-radius: 8px;
+    width: fit-content; transition: background .2s;
+  }
+  .example-link:hover { background: rgba(0,232,123,.1); }
+
+  /* GAP BOX */
+  .gap-box {
+    margin-top: 40px; background: rgba(0,0,0,.2); border: 1px solid rgba(0,232,123,.2);
+    border-radius: 16px; padding: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+  }
+  .gap-box h3 { font-size: 18px; font-weight: 800; margin-bottom: 12px; }
+  .gap-box p { font-size: 14px; color: rgba(255,255,255,.8); line-height: 1.7; }
+  .gap-highlight { color: var(--green); font-weight: 700; }
+  .model-card {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px; padding: 20px; margin-top: 16px;
+  }
+  .model-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--green); }
+  .model-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* KEY BOX */
+  .key-box {
+    margin-top: 32px; background: rgba(0,232,123,.06); border: 1px solid rgba(0,232,123,.25);
+    border-radius: 14px; padding: 28px;
+  }
+  .key-box h3 { font-size: 16px; font-weight: 800; margin-bottom: 10px; }
+  .key-box p { font-size: 14px; color: rgba(255,255,255,.85); line-height: 1.75; }
+
+  /* WHATSAPP */
+  .wa-flow {
+    display: flex; flex-direction: column; gap: 12px; margin-top: 20px;
+  }
+  .wa-step {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 10px; padding: 16px;
+  }
+  .wa-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #25D366; color: #fff;
+    font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .wa-step h4 { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .wa-step p { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
+
+  footer {
+    background: #04071a; padding: 30px 60px;
+    border-top: 1px solid rgba(255,255,255,.06);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px; color: var(--text-muted);
+  }
+
+  @media(max-width:768px){
+    section{padding:70px 24px;}
+    nav{padding:16px 24px;}
+    .hero-grid,.cards-3,.cards-2,.formats-grid,.tech-split,.gap-box{grid-template-columns:1fr;}
+    footer{flex-direction:column;gap:10px;text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">profil<span>software</span></div>
+  <div class="nav-tag">Trend Brief · Wewnętrzny · 2025</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">Rekomendacje wdrożeniowe · Profil Software</div>
+        <h1>Rekomendacje <em>Conversational AI</em> dla firmy Profil Software</h1>
+        <p style="font-size:20px;font-weight:700;color:rgba(255,255,255,0.9);margin-bottom:16px;">Pomysły wdrożeniowe na stronę internetową lidera Custom AI Software Development</p>
+        <p style="font-size:15px;color:var(--green);font-weight:600;line-height:1.6;margin-bottom:20px;padding:14px 18px;background:rgba(0,232,123,0.08);border-left:3px solid var(--green);border-radius:0 8px 8px 0;">Profil Software realizuje wdrożenia dla firm, których nie można pokazać publicznie – czat AI oparty na własnej bazie wiedzy na stronie firmowej to sposób, by zademonstrować tę kompetencję każdemu odwiedzającemu, bez naruszania NDA.</p>
+        <p class="hero-desc">Czat z artykułem, czat z archiwum bloga, czat przez WhatsApp – trzy konkretne pomysły wdrożeniowe oparte na analizie rynku i najnowszych trendach Conversational AI. Materiał przygotowany jako punkt wyjścia do rozmowy z partnerem biznesowym i warsztatu z zespołem – co warto zbudować, żeby Profil Software było pierwszą agencją IT w Polsce z takim rozwiązaniem na własnej stronie.</p>
+      </div>
+      <div class="hero-visual">
+        <div class="mockup-bar">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        </div>
+        <div class="mockup-article">
+          <strong>Jak RAG zmienia podejście do wyszukiwania w firmach?</strong><br>
+          Retrieval-Augmented Generation to architektura łącząca modele językowe z zamkniętymi bazami wiedzy. Zamiast opierać się na danych treningowych, model pobiera aktualne informacje z konkretnych dokumentów...
+        </div>
+        <hr class="mockup-divider">
+        <div class="chat-label">💬 Zapytaj o ten artykuł</div>
+        <div class="chat-bubble-user">Jakie są główne korzyści RAG dla firmy?</div>
+        <div class="chat-bubble-ai">Na podstawie artykułu: RAG eliminuje halucynacje, bo AI odpowiada tylko na podstawie Twoich danych – nie wymyśla faktów. Kluczowa korzyść to kontrola nad tym, co model "wie".</div>
+        <div class="chat-input-row">
+          <div class="chat-input">Zadaj kolejne pytanie...</div>
+          <button class="chat-send">Wyślij</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DLACZEGO WARTO -->
+<section id="why" style="background:var(--blue-bright);">
+  <div class="container">
+    <div class="pill">Dlaczego to działa</div>
+    <h2>Trzy powody, dla których to narzędzie biznesowe – nie gadżet</h2>
+    <p class="sub">Dla firmy budującej rozwiązania AI czat na blogu to coś więcej niż wygoda dla czytelnika.</p>
+    <div class="cards-3">
+      <div class="card">
+        <div class="card-icon">🏆</div>
+        <h3>Living Portfolio</h3>
+        <p>Firma sprzedająca wdrożenia LLM i RAG musi pokazać, że sama je buduje. Czat na własnym blogu to Proof of Concept widoczny dla każdego potencjalnego klienta, zanim ten w ogóle napisze.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Engagement zamiast bounce</h3>
+        <p>Techniczne artykuły mają 10–15 minut czytania. CTO może zapytać bota o kluczowy wniosek i dostać odpowiedź w 5 sekund – i zostać na stronie zamiast wychodzić do Google.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>Sygnał intencji</h3>
+        <p>Pytania zadawane botowi to dane o tym, czego szuka czytelnik. Każda sesja czatu to informacja o zainteresowaniach i bólu klienta – lepsza niż jakikolwiek heatmap.</p>
+      </div>
+    </div>
+    <div style="margin-top:32px;padding:18px 20px;background:rgba(0,232,123,0.08);border-left:3px solid var(--green);border-radius:0 8px 8px 0;">
+      <p style="font-size:15px;color:var(--green);font-weight:600;line-height:1.6;">Case studies Profil Software często objęte są NDA i nie oddają pełni kompetencji – klikalny czat AI oparty na własnej bazie wiedzy to jedyny proof, który każdy może wypróbować tu i teraz, bez potrzeby umawiania dema.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MODELE WDROŻENIA -->
+<section id="formats" style="background:var(--blue-deep);">
+  <div class="container">
+    <div class="pill">Modele wdrożenia</div>
+    <h2>Trzy formaty – jeden trend</h2>
+    <p class="sub">Conversational AI na treściach to nie jeden produkt. To rodzina formatów z różnymi zastosowaniami i różną złożonością techniczną.</p>
+    <div class="formats-grid">
+      <div class="format-card">
+        <div class="format-num">01</div>
+        <h3>Czat z artykułem</h3>
+        <p>Widget wbudowany przy konkretnym wpisie. AI odpowiada wyłącznie w kontekście tego jednego tekstu. Jak TIME Magazine. Wymaga indeksowania każdego artykułu osobno. Najwyższy precision, najniższy kontekst.</p>
+      </div>
+      <div class="format-card">
+        <div class="format-num">02</div>
+        <h3>Czat z archiwum</h3>
+        <p>Jeden chatbot dla całego bloga lub serwisu. Czytelnik pyta o dowolny temat z historii publikacji. Jak The Washington Post czy Skift. Szerszy zasięg wiedzy, łatwiejszy technicznie start.</p>
+      </div>
+      <div class="format-card">
+        <div class="format-num">03</div>
+        <div class="format-new">NOWY KANAŁ</div>
+        <h3>Czat przez WhatsApp</h3>
+        <p>Bot RAG dostępny w komunikatorze, z którego klient już korzysta. Zamiast wchodzić na stronę – pisze na WhatsApp i dostaje odpowiedź z bazy wiedzy firmy. Jak El Espectador. Przełamuje barierę wejścia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POMYSŁ A -->
+<section id="pomysl-a" style="background:var(--blue-deep);">
+  <div class="container">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px;">
+      <div style="background:var(--green);color:#0a0f2e;font-size:13px;font-weight:900;padding:8px 20px;border-radius:30px;letter-spacing:.08em;text-transform:uppercase;">Pomysł A</div>
+      <div style="height:1px;flex:1;background:rgba(255,255,255,.1);"></div>
+    </div>
+    <div class="pill">Czat z artykułem / archiwum bloga</div>
+    <h2>AI wbudowane bezpośrednio w blog Profil Software</h2>
+    <p class="sub">Czytelnik nie musi czytać całego artykułu – może zapytać AI o to, co go interesuje. Dwa warianty: czat przy konkretnym wpisie lub jeden chatbot dla całego archiwum bloga.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:40px;">
+      <div class="format-card">
+        <div class="format-num">A1</div>
+        <h3>Czat przy artykule (jak TIME)</h3>
+        <p>Widget wbudowany pod każdym wpisem. AI odpowiada wyłącznie w kontekście tego jednego tekstu. Najwyższy precision, najlepsza UX dla czytelnika. Wymaga indeksowania każdego artykułu osobno.</p>
+      </div>
+      <div class="format-card">
+        <div class="format-num">A2</div>
+        <h3>Czat z archiwum bloga (jak The Washington Post)</h3>
+        <p>Jeden chatbot dla całego bloga. Czytelnik pyta o dowolny temat z historii publikacji. Prostszy start technicznie – jeden indeks zamiast wielu. Szerszy zasięg wiedzy.</p>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+      <div>
+        <div class="tech-visual">
+          <div class="tech-badge">Jak to działa</div>
+          <h3 style="font-size:18px;margin-bottom:12px;">Pipeline techniczny</h3>
+          <div class="tech-steps" style="gap:14px;">
+            <div class="tech-step">
+              <div class="step-num">1</div>
+              <div><h4>Pobieranie i czyszczenie</h4><p>Firecrawl pobiera artykuł, usuwa reklamy i kod – zostaje czysty Markdown.</p></div>
+            </div>
+            <div class="tech-step">
+              <div class="step-num">2</div>
+              <div><h4>Chunking i wektoryzacja</h4><p>Tekst dzielony na fragmenty, embeddingi zapisane w Supabase pgvector z metadaną URL.</p></div>
+            </div>
+            <div class="tech-step">
+              <div class="step-num">3</div>
+              <div><h4>Retrieval i odpowiedź</h4><p>Similarity search → 2–3 pasujące fragmenty → GPT-4o-mini → odpowiedź z cytowaniem źródła.</p></div>
+            </div>
+            <div class="tech-step">
+              <div class="step-num">4</div>
+              <div><h4>Izolacja sesji per artykuł</h4><p>Unikalny sessionKey oparty na URL – bot nie miesza kontekstów między artykułami.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="insight-card" style="margin-bottom:20px;">
+          <h3>✅ Dlaczego to ma sens dla Profil Software</h3>
+          <ul>
+            <li><span class="li-dot">▸</span>Czat na własnym blogu = <strong>live demo kompetencji RAG</strong> widoczne dla każdego potencjalnego klienta</li>
+            <li><span class="li-dot">▸</span>Żadna polska agencja IT tego nie ma – <strong>first mover advantage</strong></li>
+            <li><span class="li-dot">▸</span>Zatrzymuje CTO/decydenta na stronie zamiast odsyłać go do Google</li>
+            <li><span class="li-dot">▸</span>Pytania czatu = dane o intencjach klienta lepsze niż heatmapy</li>
+          </ul>
+        </div>
+        <div class="insight-card">
+          <h3>💰 Ekonomika</h3>
+          <ul>
+            <li><span class="li-dot">▸</span>GPT-4o-mini: $0.15 / 1M tokenów – bardzo niski koszt dla bloga B2B</li>
+            <li><span class="li-dot">▸</span>Semantic cache: powtarzające się pytania w ~4ms, koszt = $0</li>
+            <li><span class="li-dot">▸</span>Start od jednego artykułu lub pakietu treści – nie od razu całego bloga</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POMYSŁ B -->
+<section id="pomysl-b" style="background:var(--blue-mid);">
+  <div class="container">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px;">
+      <div style="background:#25D366;color:#fff;font-size:13px;font-weight:900;padding:8px 20px;border-radius:30px;letter-spacing:.08em;text-transform:uppercase;">Pomysł B</div>
+      <div style="height:1px;flex:1;background:rgba(255,255,255,.1);"></div>
+    </div>
+    <div class="pill">WhatsApp jako interfejs RAG</div>
+    <h2>AI dostępne tam, gdzie klient już jest</h2>
+    <p class="sub">Zamiast zmuszać klienta do wchodzenia na stronę – bot RAG dostępny bezpośrednio przez WhatsApp. Jak El Espectador w Kolumbii. Przełamuje barierę wejścia i otwiera nowy kanał sprzedażowy.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+      <div>
+        <div class="tech-visual">
+          <div class="tech-badge" style="background:rgba(37,211,102,.12);border-color:rgba(37,211,102,.3);color:#25D366;">WhatsApp Business API</div>
+          <h3 style="font-size:18px;margin-bottom:12px;">Jak to działa dla klienta</h3>
+          <p style="font-size:14px;color:var(--text-muted);margin-bottom:20px;">Klient klika link lub kod QR ze strony. Otwiera WhatsApp z botem Profil Software. Pisze pytanie. Dostaje odpowiedź z bazy wiedzy firmy – jak rozmowa z doskonale poinformowanym konsultantem.</p>
+          <div class="wa-flow">
+            <div class="wa-step">
+              <div class="wa-num">1</div>
+              <div><h4>WhatsApp Business API</h4><p>Oficjalne konto przez BSP (np. Twilio, Meta for Developers). Link wa.me/numer + kod QR na stronie.</p></div>
+            </div>
+            <div class="wa-step">
+              <div class="wa-num">2</div>
+              <div><h4>Baza wiedzy RAG</h4><p>Artykuły, FAQ, opisy usług Profil Software – zindeksowane wektorowo. Bot odpowiada tylko z tej bazy.</p></div>
+            </div>
+            <div class="wa-step">
+              <div class="wa-num">3</div>
+              <div><h4>Automatyzacja (n8n)</h4><p>Wiadomość WA → webhook n8n → similarity search → GPT-4o-mini → odpowiedź na WhatsApp. Sesja per numer telefonu.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="insight-card" style="margin-bottom:20px;">
+          <h3>💡 Dlaczego WhatsApp wygrywa z chatbotem na stronie</h3>
+          <ul>
+            <li><span class="li-dot">▸</span>Klient nie musi wchodzić na stronę – pisze tam, gdzie już jest</li>
+            <li><span class="li-dot">▸</span>Brak bariery instalacji – WhatsApp jest już na każdym telefonie</li>
+            <li><span class="li-dot">▸</span>Historia rozmowy zostaje u klienta – naturalny powrót do konwersacji</li>
+            <li><span class="li-dot">▸</span>Wyższy open rate niż email – wiadomości WA czytane niemal zawsze</li>
+            <li><span class="li-dot">▸</span>Kanał sprzedażowy i supportowy w jednym</li>
+          </ul>
+        </div>
+        <div class="insight-card">
+          <h3>⚠️ O czym pamiętać</h3>
+          <ul>
+            <li><span class="li-dot">▸</span>Wymagany dostęp do WhatsApp Business API – nie zwykła aplikacja</li>
+            <li><span class="li-dot">▸</span>Semantic cache – powtarzające się pytania bez wywołania LLM (~4ms, $0)</li>
+            <li><span class="li-dot">▸</span>Koszt tokenów rośnie z długością rozmowy – context pruning kluczowy</li>
+            <li><span class="li-dot">▸</span>Sesja per numer telefonu, nie per artykuł</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRZYKŁADY -->
+<section id="examples" style="background:var(--blue-bright);">
+  <div class="container">
+    <div class="pill">Przykłady z rynku</div>
+    <h2>Kto już to robi – i jak?</h2>
+    <p class="sub">Zweryfikowane wdrożenia. Tylko te, które faktycznie działają i dotyczą rozmowy z treścią – nie ogólnych chatbotów supportowych.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px;">
+      <div class="example-card">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="example-tag">✓ Czat przy artykule</div>
+          <div class="example-type">Inline · wbudowany</div>
+        </div>
+        <h3>Chat-Enabled Articles</h3>
+        <div class="company">TIME Magazine (USA)</div>
+        <p>Jedyny zweryfikowany przykład czatu wbudowanego bezpośrednio przy konkretnym artykule. Widget odpowiada wyłącznie na pytania o treść tego tekstu. Zbudowany z Scale AI i OpenAI, oparty na 102-letnim archiwum. Dostępny bez logowania.</p>
+        <a href="https://time.com/7339685/person-of-the-year-2025-ai-architects/" target="_blank" class="example-link">Zobacz live →</a>
+      </div>
+
+      <div class="example-card">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="example-tag">✓ Czat z archiwum</div>
+          <div class="example-type">Osobna strona + artykuły</div>
+        </div>
+        <h3>Ask The Post AI</h3>
+        <div class="company">The Washington Post (USA)</div>
+        <p>Chatbot na całym archiwum od 2016 roku. Działa na artykułach i jako wyszukiwarka. Ogranicza odpowiedzi do własnych tekstów – jeśli brakuje danych, odmawia zamiast zmyślać. Wymaga subskrypcji.</p>
+        <a href="https://www.washingtonpost.com/ask-the-post-ai/" target="_blank" class="example-link">Zobacz →</a>
+      </div>
+
+      <div class="example-card">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="example-tag">✓ Czat z archiwum</div>
+          <div class="example-type">Floating widget</div>
+        </div>
+        <h3>Ask Skift</h3>
+        <div class="company">Skift – serwis branżowy (USA)</div>
+        <p>Floating widget w prawym dolnym rogu na każdej stronie serwisu. Chatbot wytrenowany na ponad 10 latach reportaży. Odpowiada na pytania o branżę travel jako całość – nie o konkretny artykuł. 3 pytania gratis, dalej paywall.</p>
+        <a href="https://ask.skift.com/" target="_blank" class="example-link">Zobacz →</a>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px;">
+      <div class="example-card">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="example-tag">✓ Czat przy artykule</div>
+          <div class="example-type">DeeperDive · zaznaczenie tekstu</div>
+        </div>
+        <h3>DeeperDive</h3>
+        <div class="company">USA Today / Gannett (USA)</div>
+        <p>Narzędzie Tabooli wdrożone u Gannetta i The Independent. Użytkownik może zaznaczyć fragment artykułu i zapytać o ten konkretny kawałek. Cytowania na poziomie zdań, wstrzymanie odpowiedzi przy konflikcie źródeł.</p>
+        <a href="https://www.axios.com/2025/" target="_blank" class="example-link">Więcej →</a>
+      </div>
+
+      <div class="example-card">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="example-tag">✓ Czat z archiwum</div>
+          <div class="example-type">Floating widget · El País</div>
+        </div>
+        <h3>Vera – asystent redakcyjny</h3>
+        <div class="company">El País (Hiszpania)</div>
+        <p>Inteligentny asystent prowadzący dialog w języku naturalnym o tematach z archiwum gazety. Zmienia wyszukiwanie słów kluczowych na swobodny dialog – AI syntetyzuje i prezentuje artykuły z bazy redakcyjnej.</p>
+        <a href="https://www.mdpi.com/2673-5172/7/1/59" target="_blank" class="example-link">Badanie →</a>
+      </div>
+
+      <div class="example-card">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="example-tag">✓ WhatsApp RAG</div>
+          <div class="example-type">Komunikator · nowy kanał</div>
+        </div>
+        <h3>WhatsApp RAG</h3>
+        <div class="company">El Espectador (Kolumbia)</div>
+        <p>Interfejs konwersacyjny przeniesiony bezpośrednio do WhatsAppa. Użytkownicy zadają pytania o bieżące wydarzenia w prywatnym czacie. System RAG odpowiada na podstawie archiwum redakcyjnego – bez wchodzenia na stronę.</p>
+        <a href="https://www.mdpi.com/2673-5172/7/1/59" target="_blank" class="example-link">Badanie →</a>
+      </div>
+    </div>
+
+    <div class="gap-box">
+      <div>
+        <h3>🔍 Wniosek: <span class="gap-highlight">luka rynkowa w branży IT</span></h3>
+        <p>Wśród przebadanych agencji IT, software house'ów i firm AI – <strong>żadna nie wdrożyła czatu z artykułem na własnym blogu firmowym</strong>. Trend istnieje tylko w dużych mediach. To luka, którą można wypełnić jako pierwszy gracz w tej niszy.</p>
+        <p style="margin-top:12px;"><span class="gap-highlight">Kto wdroży to pierwszy, zyska przewagę</span> – jako narzędzie engagement i jako live demo kompetencji RAG wobec potencjalnych klientów.</p>
+      </div>
+      <div>
+        <h3>🧩 Dwa modele startowe</h3>
+        <div class="model-card">
+          <h4>Model A – Czat przy artykule (jak TIME)</h4>
+          <p>Widget pod każdym wpisem. AI tylko w kontekście tego tekstu. Najwyższy precision, najlepsza UX dla czytelnika. Wymaga indeksowania artykułów osobno.</p>
+        </div>
+        <div class="model-card">
+          <h4>Model B – Czat z archiwum bloga</h4>
+          <p>Jeden chatbot dla całego bloga. Pytania o dowolny temat z historii publikacji. Prostszy start technicznie – jeden indeks zamiast wielu.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH INSIGHTS -->
+<section id="insights" style="background:var(--blue-deep);">
+  <div class="container">
+    <div class="pill">Insights z researchu</div>
+    <h2>Co mówią dane i badania?</h2>
+    <p class="sub">Najważniejsze wnioski z analizy trendu – materiał do warsztatu z zespołem technicznym i marketingiem.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px;">
+      <div class="insight-card">
+        <h3>📊 Dane behawioralne</h3>
+        <ul>
+          <li><span class="li-dot">▸</span>Średni czas sesji: poniżej 2 min przy artykule statycznym → wydłużenie o ~67% przy czacie (dane Divee.ai)</li>
+          <li><span class="li-dot">▸</span>Wzrost ponownych wizyt o ~35%</li>
+          <li><span class="li-dot">▸</span>Średnio 7–10 pytań na zaangażowaną sesję</li>
+          <li><span class="li-dot">▸</span>⚠️ Źródło: materiały dostawcy – traktować jako orientacyjne, nie niezależne badania</li>
+        </ul>
+      </div>
+
+      <div class="insight-card">
+        <h3>🧠 Dwa typy użytkowników</h3>
+        <ul>
+          <li><span class="li-dot">▸</span><strong>Skeptical Power User</strong> – używa czatu do weryfikacji; pyta, dostaje syntezę, klika w źródła i sprawdza</li>
+          <li><span class="li-dot">▸</span><strong>Strategic Snacker</strong> – nie ma czasu czytać; prosi o kluczowe punkty i pogłębia tylko wybrane</li>
+          <li><span class="li-dot">▸</span>Oba typy są realne i liczne – wymagają różnego UX i różnych CTA</li>
+        </ul>
+      </div>
+
+      <div class="insight-card">
+        <h3>⚙️ Wzorce techniczne z wdrożeń</h3>
+        <ul>
+          <li><span class="li-dot">▸</span>Zawężony korpus (tylko własne treści) – eliminuje halucynacje</li>
+          <li><span class="li-dot">▸</span>Klikalne cytowania do konkretnego zdania – buduje zaufanie</li>
+          <li><span class="li-dot">▸</span>Refusal threshold – bot odmawia gdy brak dopasowania</li>
+          <li><span class="li-dot">▸</span>Follow-up questions – dialog, nie jednorazowa odpowiedź</li>
+          <li><span class="li-dot">▸</span>Izolacja sesji per URL lub per numer telefonu</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="insight-card">
+        <h3>💰 Ekonomika – ile to kosztuje</h3>
+        <ul>
+          <li><span class="li-dot">▸</span>GPT-4o-mini: $0.15 / 1M tokenów wejściowych – optymalny silnik dla czatu z artykułem</li>
+          <li><span class="li-dot">▸</span>Koszt rośnie kwadratowo z długością rozmowy – context pruning kluczowy</li>
+          <li><span class="li-dot">▸</span>Semantic cache: te same pytania w ~4ms, koszt API = $0</li>
+          <li><span class="li-dot">▸</span>Cost-Aware RAG: -26% tokenów, -34% latencji przy porównywalnej jakości</li>
+          <li><span class="li-dot">▸</span>Lokalne modele (Ollama): $0 kosztów API, tylko infrastruktura</li>
+          <li><span class="li-dot">▸</span>Batch processing: 50% oszczędności przy OpenAI i Anthropic</li>
+        </ul>
+      </div>
+
+      <div class="insight-card">
+        <h3>🚀 Rekomendacje dla Profil Software</h3>
+        <ul>
+          <li><span class="li-dot">▸</span>Czat z artykułem = <strong>live demo kompetencji RAG</strong> – klient widzi co potrafimy zbudować zanim napisze</li>
+          <li><span class="li-dot">▸</span>Żadna polska agencja IT tego nie ma – <strong>first mover advantage</strong></li>
+          <li><span class="li-dot">▸</span>WhatsApp RAG = nowy kanał sprzedażowy bez aplikacji – warto przetestować jako MVP</li>
+          <li><span class="li-dot">▸</span>Start od jednego artykułu lub pakietu treści, nie od razu całego bloga</li>
+          <li><span class="li-dot">▸</span>Budujemy LLM-y dla klientów – ten produkt to <strong>proof of concept w czasie rzeczywistym</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="key-box">
+      <h3>🗝️ Kluczowy wniosek</h3>
+      <p>
+        Trend "chat with article" jest realny i nabiera kształtu, ale wciąż w fazie wczesnej adopcji – tylko duże media go wdrożyły. W świecie agencji IT to <strong>luka, którą można wypełnić jako pierwsi</strong>. Optymalny start to jeden artykuł lub pakiet treści, zawężony korpus wiedzy, cytowania i follow-up questions. WhatsApp RAG to rozszerzenie tego samego paradygmatu na inny kanał – i potencjalnie łatwiejszy punkt wejścia dla klientów B2B. Oba warto omówić na warsztacie z zespołem technicznym i marketingiem.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2025 Profil Software · Trend Brief – Conversational AI</div>
+  <div>Dokument wewnętrzny · Poufny</div>
+</footer>
+
+</body>
+</html>
